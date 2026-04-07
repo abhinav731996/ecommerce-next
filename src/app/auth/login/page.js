@@ -1,18 +1,57 @@
 "use client";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { login } from "../../../redux/slices/authSlice";
+import { useRouter } from "next/navigation";
+import { Form, Button, Container } from "react-bootstrap";
+import Link from "next/link";
 
 export default function Login() {
   const dispatch = useDispatch();
+  const router = useRouter();
 
-  const handleLogin = () => {
-    dispatch(login({ name: "User" }));
+  const [form, setForm] = useState({
+    email: "",
+    password: "",
+  });
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    dispatch(login(form));
+    router.push("/");
   };
 
   return (
-    <div className="container mt-4">
-      <h3>Login</h3>
-      <button onClick={handleLogin}>Login</button>
-    </div>
+    <Container className="mt-4">
+      <h3>Sign In</h3>
+
+      <Form onSubmit={handleSubmit}>
+        <Form.Group className="mb-2">
+          <Form.Label>Email</Form.Label>
+          <Form.Control
+            onChange={(e) =>
+              setForm({ ...form, email: e.target.value })
+            }
+          />
+        </Form.Group>
+
+        <Form.Group className="mb-2">
+          <Form.Label>Password</Form.Label>
+          <Form.Control
+            type="password"
+            onChange={(e) =>
+              setForm({ ...form, password: e.target.value })
+            }
+          />
+        </Form.Group>
+
+        <Button type="submit">Login</Button>
+      </Form>
+      <hr/>
+      Create a new account?
+      <br/>
+        <Button type="submit" as={Link} href="/auth/register">Sign-up</Button>
+    </Container>
   );
 }

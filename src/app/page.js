@@ -88,33 +88,73 @@
 //   );
 // }
 
+// "use client";
+// import { useEffect } from "react";
+// import { useDispatch, useSelector } from "react-redux";
+// import { fetchProducts } from "../redux/slices/productSlice";
+// import ProductCard from "../components/ProductCard";
+// import Header from "../components/Header";
+// import Footer from "@/components/Footer";
+
+// export default function Home() {
+//   const dispatch = useDispatch();
+//   const { items } = useSelector((state) => state.products);
+
+//   useEffect(() => {
+//     dispatch(fetchProducts());
+//   }, []);
+
+//   return (
+//     <>
+//       {/* <Header /> */}
+//       <div className="container mt-4">
+//         <div className="row">
+//           {items.map((product) => (
+//             <div className="col-md-3" key={product.id}>
+//               <ProductCard product={product} />
+//             </div>
+//           ))}
+//         </div>
+//       </div>
+//       {/* <Footer/> */}
+//     </>
+//   );
+// }
+
+
 "use client";
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchProducts } from "../redux/slices/productSlice";
+import { useEffect, useState } from "react";
+import { API } from "../services/api";
 import ProductCard from "../components/ProductCard";
-import Header from "../components/Header";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 
 export default function Home() {
-  const dispatch = useDispatch();
-  const { items } = useSelector((state) => state.products);
+  const [products, setProducts] = useState([]);
+
+  const getProducts = async () => {
+    const res = await API.get("/products");
+    setProducts(res.data.products);
+  };
 
   useEffect(() => {
-    dispatch(fetchProducts());
+    getProducts();
   }, []);
 
   return (
     <>
-      <Header />
-      <div className="container mt-4">
-        <div className="row">
-          {items.map((product) => (
-            <div className="col-md-3" key={product.id}>
-              <ProductCard product={product} />
-            </div>
-          ))}
-        </div>
+    <Header/>
+    <div className="container mt-4">
+      <div className="row">
+        {products.map((item) => (
+          <div className="col-md-3 mb-3" key={item.id}>
+            <ProductCard product={item} />
+          </div>
+        ))}
       </div>
+    </div>
+    <Footer/>
+    
     </>
   );
 }
