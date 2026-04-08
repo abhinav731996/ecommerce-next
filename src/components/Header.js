@@ -10,7 +10,7 @@ import {
 } from "react-bootstrap";
 import Link from "next/link";
 import { useSelector, useDispatch } from "react-redux";
-import { logout } from "../redux/slices/authSlice";
+import { logout, register } from "../redux/slices/authSlice";
 import { useEffect, useState } from "react";
 import { Cart, Heart, Shop } from "react-bootstrap-icons";
 import { useRouter } from "next/navigation";
@@ -19,17 +19,25 @@ const Header = () => {
   const { cartItems } = useSelector((state) => state.cart);
   const { wishlistItems } = useSelector((state) => state.wishlist);
   const { user } = useSelector((state) => state.auth);
-//   const [user, setUser] = useState(null);
-
-// useEffect(() => {
-//   const storedUser = JSON.parse(localStorage.getItem("user"));
-//   setUser(storedUser);
-// }, []);
-
-  const dispatch = useDispatch();
+   const dispatch = useDispatch();
   const router = useRouter();
 
   const [search, setSearch] = useState("");
+useEffect(() => {
+    const user = localStorage.getItem("user");
+    if (user) {
+      dispatch(register(JSON.parse(user)));
+    }
+  }, []);
+
+
+ const [mounted, setMounted] = useState(false);
+
+useEffect(() => {
+  setMounted(true);
+}, []);
+
+if (!mounted) return null;
 
   // Handle Search
   const handleSearch = (e) => {
@@ -86,8 +94,8 @@ const Header = () => {
             </Nav.Link>
 
             {/* USER */}
-            {user ? (
-              <NavDropdown title={` ${user.name}`} align="end">
+            {mounted && user ? (
+  <NavDropdown title={` ${user.name}`} align="end">
                 <NavDropdown.Item as={Link} href="/account">
                   Profile
                 </NavDropdown.Item>

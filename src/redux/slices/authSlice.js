@@ -11,8 +11,8 @@ const getUserFromStorage = () => {
 const authSlice = createSlice({
   name: "auth",
   initialState: {
-    user: getUserFromStorage(),
-  },
+  user: null,
+},
   reducers: {
     register: (state, action) => {
       localStorage.setItem("user", JSON.stringify(action.payload));

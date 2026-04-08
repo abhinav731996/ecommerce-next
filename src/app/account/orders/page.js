@@ -1,5 +1,10 @@
+import Footer from "@/components/Footer";
+import Header from "@/components/Header";
+
 export default function Orders() {
   return (
+    <>
+    <Header/>
     <div className="container mt-4">
       <h3>Order History</h3>
 
@@ -9,5 +14,7 @@ export default function Orders() {
         <p>Total: $1200</p>
       </div>
     </div>
+    <Footer/>
+    </>
   );
 }

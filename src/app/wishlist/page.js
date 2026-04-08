@@ -7,7 +7,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
 export default function Wishlist() {
-  const { items } = useSelector((state) => state.wishlist);
+  const { wishlistItems } = useSelector((state) => state.wishlist);
   const dispatch = useDispatch();
 
   return (
@@ -16,11 +16,11 @@ export default function Wishlist() {
     <div className="container mt-4">
       <h3>Wishlists</h3>
 
-      {items.length === 0 ? (
+      {wishlistItems.length === 0 ? (
         <h5 className="text-center mt-5">Your wishlist is empty </h5>
       ) : (
         <div className="row">
-          {items.map((item) => (
+          {wishlistItems.map((item) => (
             <div className="col-md-3 mb-4" key={item.id}>
               <div className="card p-3 h-100 text-center">
                 

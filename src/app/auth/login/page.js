@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../../redux/slices/authSlice";
 import { useRouter } from "next/navigation";
 import { Form, Button, Container } from "react-bootstrap";
@@ -9,6 +9,7 @@ import Link from "next/link";
 export default function Login() {
   const dispatch = useDispatch();
   const router = useRouter();
+  const { user } = useSelector((state) => state.auth);
 
   const [form, setForm] = useState({
     email: "",
@@ -19,7 +20,18 @@ export default function Login() {
     e.preventDefault();
 
     dispatch(login(form));
-    router.push("/");
+
+    // wait thoda (redux update ke liye)
+    setTimeout(() => {
+      const storedUser = JSON.parse(localStorage.getItem("user"));
+      if (
+        storedUser &&
+        storedUser.email === form.email &&
+        storedUser.password === form.password
+      ) {
+        router.push("/");
+      }
+    }, 200);
   };
 
   return (
@@ -48,10 +60,13 @@ export default function Login() {
 
         <Button type="submit">Login</Button>
       </Form>
-      <hr/>
+
+      <hr />
       Create a new account?
-      <br/>
-        <Button type="submit" as={Link} href="/auth/register">Sign-up</Button>
+      <br />
+      <Button as={Link} href="/auth/register">
+        Sign-up
+      </Button>
     </Container>
   );
 }
