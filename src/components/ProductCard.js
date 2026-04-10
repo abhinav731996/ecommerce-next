@@ -13,12 +13,10 @@ const ProductCard = ({ product }) => {
   const cartState = useSelector((state) => state.cart);
   const wishlistState = useSelector((state) => state.wishlist);
 
-  const inCart = cartState?.cartItems?.some(
-    (item) => item.id === product.id
-  );
+  const inCart = cartState?.cartItems?.some((item) => item.id === product.id);
 
   const inWishlist = wishlistState?.wishlistItems?.some(
-    (item) => item.id === product.id
+    (item) => item.id === product.id,
   );
 
   //  Add to Cart
@@ -42,8 +40,7 @@ const ProductCard = ({ product }) => {
   };
 
   return (
-    <Card className="h-100 shadow-sm">
-      
+    <Card className="h-100 text-center shadow-sm">
       {/* IMAGE CLICK */}
       <Link href={product?.id ? `/product/${product.id}` : "#"}>
         <Card.Img src={product.thumbnail} />
@@ -63,7 +60,6 @@ const ProductCard = ({ product }) => {
         <Card.Text>${product.price}</Card.Text>
 
         <div className="d-flex justify-content-between">
-
           {/*  CART BUTTON */}
           <Button variant="primary" onClick={handleAddToCart}>
             {inCart ? (
@@ -85,7 +81,6 @@ const ProductCard = ({ product }) => {
               "Wishlist"
             )}
           </Button>
-
         </div>
       </Card.Body>
     </Card>

@@ -19,25 +19,24 @@ const Header = () => {
   const { cartItems } = useSelector((state) => state.cart);
   const { wishlistItems } = useSelector((state) => state.wishlist);
   const { user } = useSelector((state) => state.auth);
-   const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const router = useRouter();
 
   const [search, setSearch] = useState("");
-useEffect(() => {
+  useEffect(() => {
     const user = localStorage.getItem("user");
     if (user) {
       dispatch(register(JSON.parse(user)));
     }
   }, []);
 
+  const [mounted, setMounted] = useState(false);
 
- const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
-useEffect(() => {
-  setMounted(true);
-}, []);
-
-if (!mounted) return null;
+  if (!mounted) return null;
 
   // Handle Search
   const handleSearch = (e) => {
@@ -48,17 +47,21 @@ if (!mounted) return null;
   };
 
   return (
-    <Navbar bg="dark" variant="dark" style={{height:'80px'}} expand="lg" sticky="top">
+    <Navbar
+      bg="dark"
+      variant="dark"
+      style={{ height: "80px" }}
+      expand="lg"
+      sticky="top"
+    >
       <Container>
-
         {/* LOGO */}
         <Navbar.Brand as={Link} href="/">
-          <Shop/> Shopify
+          <Shop /> Shopify
         </Navbar.Brand>
 
         <Navbar.Toggle />
         <Navbar.Collapse>
-
           {/* SEARCH BAR */}
           <Form className="d-flex mx-auto" onSubmit={handleSearch}>
             <FormControl
@@ -72,12 +75,14 @@ if (!mounted) return null;
 
           {/* RIGHT MENU */}
           <Nav className="ms-auto align-items-center">
-
             {/* WISHLIST */}
             <Nav.Link as={Link} href="/wishlist" className="position-relative">
               <Heart size={20} />
               {wishlistItems.length > 0 && (
-                <Badge bg="danger" className="position-absolute top-0 start-100 translate-middle">
+                <Badge
+                  bg="danger"
+                  className="position-absolute top-0 start-100 translate-middle"
+                >
                   {wishlistItems.length}
                 </Badge>
               )}
@@ -87,7 +92,10 @@ if (!mounted) return null;
             <Nav.Link as={Link} href="/cart" className="position-relative">
               <Cart size={20} />
               {cartItems.length > 0 && (
-                <Badge bg="success" className="position-absolute top-0 start-100 translate-middle">
+                <Badge
+                  bg="success"
+                  className="position-absolute top-0 start-100 translate-middle"
+                >
                   {cartItems.length}
                 </Badge>
               )}
@@ -95,9 +103,13 @@ if (!mounted) return null;
 
             {/* USER */}
             {mounted && user ? (
-  <NavDropdown title={` ${user.name}`} align="end">
+              <NavDropdown title={` ${user.name}`} align="end">
                 <NavDropdown.Item as={Link} href="/account">
                   Profile
+                </NavDropdown.Item>
+
+                <NavDropdown.Item as={Link} href="/account/editProfile">
+                  Profile edit
                 </NavDropdown.Item>
 
                 <NavDropdown.Item as={Link} href="/account/orders">

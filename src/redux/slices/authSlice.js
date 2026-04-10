@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+//  Get user safely from localStorage
 const getUserFromStorage = () => {
   if (typeof window !== "undefined") {
     const user = localStorage.getItem("user");
@@ -8,19 +9,26 @@ const getUserFromStorage = () => {
   return null;
 };
 
+const initialState = {
+  user: null, //  FIXED
+};
+
 const authSlice = createSlice({
   name: "auth",
-  initialState: {
-  user: null,
-},
+  initialState,
   reducers: {
+    //  REGISTER
     register: (state, action) => {
       localStorage.setItem("user", JSON.stringify(action.payload));
       state.user = action.payload;
     },
 
+    //  LOGIN (cleaned)
     login: (state, action) => {
-      const storedUser = JSON.parse(localStorage.getItem("user"));
+      const storedUser =
+        typeof window !== "undefined"
+          ? JSON.parse(localStorage.getItem("user"))
+          : null;
 
       if (
         storedUser &&
@@ -33,12 +41,25 @@ const authSlice = createSlice({
       }
     },
 
+    //  UPDATE USER ( REQUIRED FOR EDIT PROFILE)
+    updateUser: (state, action) => {
+      state.user = action.payload;
+
+      if (typeof window !== "undefined") {
+        localStorage.setItem("user", JSON.stringify(action.payload));
+      }
+    },
+
+    //  LOGOUT
     logout: (state) => {
-      localStorage.removeItem("user");
+      if (typeof window !== "undefined") {
+        localStorage.removeItem("user");
+      }
       state.user = null;
     },
+    
   },
 });
 
-export const { register, login, logout } = authSlice.actions;
+export const { register, login, logout, updateUser } = authSlice.actions;
 export default authSlice.reducer;

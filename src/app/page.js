@@ -128,9 +128,14 @@ import { API } from "../services/api";
 import ProductCard from "../components/ProductCard";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import Category from "@/components/Category";
+import { Button } from "react-bootstrap";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
+  const router = useRouter();
   const [products, setProducts] = useState([]);
+
 
   const getProducts = async () => {
     const res = await API.get("/products");
@@ -141,9 +146,13 @@ export default function Home() {
     getProducts();
   }, []);
 
+
+
   return (
     <>
     <Header/>
+    <Category/>
+    
     <div className="container mt-4">
       <div className="row">
         {products.map((item) => (
