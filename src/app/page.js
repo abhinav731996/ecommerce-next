@@ -131,6 +131,7 @@ import Footer from "@/components/Footer";
 import Category from "@/components/Category";
 import { Button } from "react-bootstrap";
 import { useRouter } from "next/navigation";
+import Pagination from "@/components/Pagenatio";
 
 export default function Home() {
   const router = useRouter();
@@ -151,7 +152,8 @@ export default function Home() {
   return (
     <>
     <Header/>
-    <Category/>
+    <Pagination/>
+    {/* <Category/> */}
     
     <div className="container mt-4">
       <div className="row">

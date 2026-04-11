@@ -7,6 +7,9 @@ import {
   FormControl,
   Badge,
   NavDropdown,
+  Dropdown,
+  NavItem,
+  NavLink,
 } from "react-bootstrap";
 import Link from "next/link";
 import { useSelector, useDispatch } from "react-redux";
@@ -14,6 +17,7 @@ import { logout, register } from "../redux/slices/authSlice";
 import { useEffect, useState } from "react";
 import { Cart, Heart, Shop } from "react-bootstrap-icons";
 import { useRouter } from "next/navigation";
+import Category from "./Category";
 
 const Header = () => {
   const { cartItems } = useSelector((state) => state.cart);
@@ -72,6 +76,18 @@ const Header = () => {
               onChange={(e) => setSearch(e.target.value)}
             />
           </Form>
+          <Dropdown as={NavItem} className="mt-2">
+            <Dropdown.Toggle as={NavLink}>
+              <Badge bg="Dark">
+                <h5>Categories</h5>
+              </Badge>
+            </Dropdown.Toggle>
+            <Dropdown.Menu>
+              <Dropdown.Item>
+                <Category />
+              </Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
 
           {/* RIGHT MENU */}
           <Nav className="ms-auto align-items-center">

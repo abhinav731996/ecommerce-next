@@ -64,7 +64,7 @@ export default function Profile() {
             <Card className="p-3 text-center shadow-sm">
               <h5>Orders</h5>
               <h3>{orders.length}</h3>
-              <Button variant="success" onClick={() => router.push("/orders")}>
+              <Button variant="success" onClick={() => router.push("/account/orders")}>
                 View Orders
               </Button>
             </Card>

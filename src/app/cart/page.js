@@ -43,7 +43,7 @@ export default function Cart() {
     }
   };
 
-  // ✅ PLACE ORDER
+  //  PLACE ORDER
   const handlePlaceOrder = async () => {
     if (!user) {
       toast.error("Please login first");

@@ -1,32 +1,28 @@
-"use client";
-import { Form, Button } from "react-bootstrap";
+import { useDispatch } from "react-redux";
+import { addOrder } from "@/redux/slices/orderSlice";
+import { mockApi } from "@/services/api";
 
-export default function Checkout() {
-  return (
-    <div className="container mt-4">
-      <h3>Checkout</h3>
+const dispatch = useDispatch();
 
-      <Form>
-        <Form.Group>
-          <Form.Label>Name</Form.Label>
-          <Form.Control />
-        </Form.Group>
+const placeOrder = async () => {
+  const newOrder = {
+    userId: user.id,
+    items: cartItems,
+    total: cartItems.reduce((acc, item) => acc + item.price * item.qty, 0),
+    date: new Date().toISOString(),
+  };
 
-        <Form.Group>
-          <Form.Label>Address</Form.Label>
-          <Form.Control />
-        </Form.Group>
+  try {
+    const res = await mockApi.post("/orders", newOrder);
 
-        <Form.Group>
-          <Form.Label>Payment</Form.Label>
-          <Form.Select>
-            <option>Card</option>
-            <option>UPI</option>
-          </Form.Select>
-        </Form.Group>
+    //  UPDATE REDUX
+    dispatch(addOrder(res.data));
 
-        <Button className="mt-3">Place Order</Button>
-      </Form>
-    </div>
-  );
-}
+    //  CLEAR CART (optional)
+    // dispatch(clearCart());
+
+    alert("Order Placed Successfully");
+  } catch (err) {
+    console.error(err);
+  }
+};

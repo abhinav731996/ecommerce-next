@@ -47,7 +47,6 @@
 //   );
 // }
 
-
 import "bootstrap/dist/css/bootstrap.min.css";
 import Header from "../components/Header";
 import Providers from "./providers";
@@ -58,18 +57,10 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
-
         <Providers>
-          {/* <Header /> */}
-
-          <main >
-            {children}
-          </main>
-          {/* <Footer/> */}
-      <ToastContainer />
-
+          <main>{children}</main>
+          <ToastContainer />
         </Providers>
-
       </body>
     </html>
   );
