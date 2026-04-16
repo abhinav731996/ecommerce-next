@@ -116,3 +116,4 @@ useEffect(() => {
 };
 
 export default ProductDetails;
+
