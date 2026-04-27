@@ -8,4 +8,3 @@ export const API = axios.create({
 export const mockApi = axios.create({
     baseURL: process.env.NEXT_PUBLIC_MOCK_API
 });
-
